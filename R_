@@ -1,0 +1,22 @@
+#here are the input data
+> #Costanza data on streams
+> water <- c(100,200,300,400,500)
+> water
+[1] 100 200 300 400 500
+> #Marta data on fishes genomes 
+> fishes <- c(19,50,60,100,200)
+> fishes
+[1]  19  50  60 100 200
+> 
+> #plot the diversity of fishes (y) versus the amount of water (x)
+> # a function is used with arguments indise!
+> plot(water, fishes)
+> streams <- data.frame(water,fishes)
+> streams
+  water fishes
+1   100     19
+2   200     50
+3   300     60
+4   400    100
+5   500    200
+> 
