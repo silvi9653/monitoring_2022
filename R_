@@ -3,11 +3,12 @@
 > water <- c(100,200,300,400,500)
 > water
 [1] 100 200 300 400 500
+
 > #Marta data on fishes genomes 
 > fishes <- c(19,50,60,100,200)
 > fishes
 [1]  19  50  60 100 200
-> 
+
 > #plot the diversity of fishes (y) versus the amount of water (x)
 > # a function is used with arguments indise!
 > plot(water, fishes)
@@ -19,4 +20,46 @@
 3   300     60
 4   400    100
 5   500    200
-> 
+
+
+#import and/or export data!
+
+#setwd for windows ("C:/lab/") -> set the working directory
+setwd("C:/lab/")
+
+# prepare the table
+> water <- c(100, 200, 300, 400, 500)
+> fishes <- c(10, 50, 60, 100, 200)
+> streams <- data.frame(water,fishes)
+> streams
+  water fishes
+1   100     10
+2   200     50
+3   300     60
+4   400    100
+5   500    200
+
+#let's export our table in a folder 
+#write.table(x,file="name of file in the folder")
+write.table(streams,file="my_first_table.txt")
+
+#let's import table in R 
+#read.table("file name")
+read.table("my_first_table.txt")
+#assign to an object
+silviatable <- read.table("my_first_table.txt")
+silviatable
+
+#summary of dataset(know max; min; mean; and median)
+#summary (x)
+summary(silviatable)
+
+#Info on just one variable 
+summary(silviatable$fishes)
+
+#create a istogram of the data 
+#hist(x)
+hist(fishes)
+hist(silviatable$fishes)
+hist(water)
+hist(silviatable$water)
