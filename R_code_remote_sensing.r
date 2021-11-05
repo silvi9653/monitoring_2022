@@ -32,3 +32,36 @@ cl <- colorRampPalette(c("black","grey","light grey"))(100)
 plot(L2011,col=cl)
 #assign rgb color
 plotRGB(L2011, r=3, g=2, b=1, stretch="Lin")
+
+#....day2 
+#B1 is the reflectance in the blue band
+#B2 is the reflectance in the green band
+#B3 is the reflectance in the red band
+#B4 is the reflectance in the NIR band
+
+#plot the single band by name B2_sre (spectro reflection)
+plot(L2011$B2_sre)
+
+cl<- colorRampPalette(c("black","grey","light grey"))(100)
+plot(L2011$B2_sre, col=cl)
+
+#change the colorRampPalette with dark green and light green, e.g. clg
+clg<- colorRampPalette(c("dark green","green","light green"))(100)
+plot(L2011$B2_sre, col=clg)
+
+#do the same with blue band
+clb<- colorRampPalette(c("dark blue","blue","light blue"))(100)
+plot(L2011$B1_sre, col=clb)
+
+#chain two images in multiframe graph
+par(mfrow=c(1,2)) #the first number is the namer of the row in the multiframe the second number of column
+plot(L2011$B1_sre, col=clb)
+plot(L2011$B2_sre, col=clg)
+
+#chain two images in multiframe graph two rows and one column
+par(mfrow=c(2,1))
+plot(L2011$B1_sre, col=clb)
+plot(L2011$B2_sre, col=clg)
+
+#dev.off() to clean the workspace on R
+
