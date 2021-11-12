@@ -106,9 +106,27 @@ plotRGB(L2011,r=3, g=2, b=4, stretch="Lin") # yellow part cutted forest
 # multiframe
 par(mfrow=c(2,2))
 plotRGB(L2011,r=3, g=2, b=1, stretch="Lin")
-plotRGB(L2011,r=4, g=3, b=2, stretch="Lin")
-plotRGB(L2011,r=3, g=4, b=2, stretch="Lin") 
+plotRGB(L2011,r=4, g=3, b=2, stretch="Lin")#false color
+plotRGB(L2011,r=3, g=4, b=2, stretch="Lin") #false color
+plotRGB(L2011,r=3, g=2, b=4, stretch="Lin")#false color
+
+#day 4......final day on this topic forest reserve
+
+#RGB stretch
+plotRGB(L2011,r=3, g=2, b=1, stretch="Lin")
+plotRGB(L2011,r=3, g=2, b=1, stretch="Hist") # stretching the value so there are more evidence the difference
+
+#create a brick object 
+L1988<-brick("p224r63_1988.grd")
+L1988
+#use multiframe to see 1988 and 2011 picture
+par(mfrow=c(2,1))
+plotRGB(L1988,r=3, g=2, b=1, stretch="Lin")
+plotRGB(L2011,r=3, g=2, b=1, stretch="Lin")
+#put the NIR in  blue channel
+par(mfrow=c(2,1))
+plotRGB(L1988,r=3, g=2, b=4, stretch="Lin")
 plotRGB(L2011,r=3, g=2, b=4, stretch="Lin")
-
-
-
+  
+  
+  
