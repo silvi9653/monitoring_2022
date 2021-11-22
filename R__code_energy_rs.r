@@ -53,4 +53,13 @@ difcl<-colorRampPalette(c("blue","white","red"))(100) #create the color ramp pal
 #plot the images
 plot(dvidif, col=difcl)
 
+#final plot: original images, dvis, dinal dvi difference
+#create the multiframe
+par(mfrow=c(3,2))
+#plot the picture
+plotRGB(L1992,r=1, g=2, b=3, stretch="Lin")
+plotRGB(L2006, r=1, g=2, b=3,  stretch="Lin")
+plot(dvi1992, col=dvicl)
+plot(dvi2006, col=dvicl)
+plot(dvidif, col=difcl)
 
