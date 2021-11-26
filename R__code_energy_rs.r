@@ -63,3 +63,24 @@ plot(dvi1992, col=dvicl)
 plot(dvi2006, col=dvicl)
 plot(dvidif, col=difcl)
 
+#create a pdf
+pdf("energy.pdf")
+#create the multiframe
+par(mfrow=c(3,2))
+#plot the picture
+plotRGB(L1992,r=1, g=2, b=3, stretch="Lin")
+plotRGB(L2006, r=1, g=2, b=3,  stretch="Lin")
+plot(dvi1992, col=dvicl)
+plot(dvi2006, col=dvicl)
+plot(dvidif, col=difcl)
+dev.off #close pdf
+
+#create a pdf
+pdf("dvi.pdf")
+#create the multiframe
+par(mfrow=c(3,1))
+#plot the picture
+plot(dvi1992, col=dvicl)
+plot(dvi2006, col=dvicl)
+plot(dvidif, col=difcl)
+dev.off #close pdf
