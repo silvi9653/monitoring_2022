@@ -24,18 +24,18 @@ EN01
 #names      : EN_0001 
 #values     : 0, 255  (min, max) #8 bit file image resolution ->2^8=256 potential value
 
-#plot the image
+#plot the image and assign a color palette
 cl<- colorRampPalette(c("red","orange","yellow"))(100)
 plot(EN01,col=cl)
 
 #Exercise: import the last images the end of March No2 and plot it
-EN013<- raster("EN_0013.png")
-plot(EN013,col=cl)
+EN13<- raster("EN_0013.png")
+plot(EN13,col=cl)
 
 #make a multiframe with 2 rows and 1 column
 par(mfrow=c(2,1))
 plot(EN01,col=cl)
-plot(EN013,col=cl)
+plot(EN13,col=cl)
 
 #import the other images
 EN02<- raster("EN_0002.png")
@@ -46,7 +46,45 @@ EN06<- raster("EN_0006.png")
 EN07<- raster("EN_0007.png")
 EN08<- raster("EN_0008.png")
 EN09<- raster("EN_0009.png")
-EN010<- raster("EN_0010.png")
-EN011<- raster("EN_0011.png")
-EN012<- raster("EN_0012.png")
+EN10<- raster("EN_0010.png")
+EN11<- raster("EN_0011.png")
+EN12<- raster("EN_0012.png")
+
+# use par (multiframe) for plotting images
+par(mfrow=c(4,4))
+plot(EN01,col=cl)
+plot(EN02,col=cl)
+plot(EN03,col=cl)
+plot(EN04,col=cl)
+plot(EN05,col=cl)
+plot(EN06,col=cl)
+plot(EN07,col=cl)
+plot(EN08,col=cl)
+plot(EN09,col=cl)
+plot(EN10,col=cl)
+plot(EN11,col=cl)
+plot(EN12,col=cl)
+plot(EN13,col=cl)
+#not use this way, it's very long
+
+# otherwise for plotting the images in one shot
+# use stack function
+#put the all images in a raster stack
+EN<-stack(EN01, EN02, EN03, EN04, EN05, EN06, EN07, EN08, EN09, EN10, EN11, EN12, EN13)
+#plot the stack all togheter
+plot(EN,col=cl)
+
+#plot the first image of the stack
+EN #to see the name of the first image in stack object
+plot(EN$EN_0001,col=cl)
+
+#rgb space 
+plotRGB(EN,r=1, g=7, b=13, stretch="Lin")#put the number of the images january, february and march 
+#yellow - white componement always present for agricoltural activity in pianura padana 
+
+
+#day2......
+#for import the data in one shot use function lapplay
+
+
 
