@@ -84,7 +84,36 @@ plotRGB(EN,r=1, g=7, b=13, stretch="Lin")#put the number of the images january, 
 
 
 #day2......
-#for import the data in one shot use function lapplay
+# import the data in one shot use function lapply
+#create a list
+#list.file function required the path"."; we can ommit that with setwd
+rlist <- list.files(pattern = "EN")
+rlist
+#apply the lapply function
+list_rast <- lapply(rlist, raster)
+list_rast
+#use the stack for set all data in raster
+EN_stack<- stack(list_rast)
+EN_stack
+#plot them toghether 
+plot(EN_stack,col=cl)
 
+#Exercise plot only the first image of stack
+plot(EN_stack$EN_0001,col=cl)
 
+#difference between the first and the last images
+cldif<-colorRampPalette(c("blue","white","red"))(100)#create color ramp palette
+plot(EN_stack$EN_0001-EN_stack$EN_0013,col=cldif)#plot the new image
 
+#out of topic part
+#automated source function #for run the code in R immidiatly
+#create a text file with the program and save in the EN folder (extension ".r")
+dev.off()#for clean the window in r
+#import the program without copy-paste
+source("automatic_source_import.r")
+#the final images pop-up
+#finish out of topic
+       
+#pairs
+pairs(EN)
+#
