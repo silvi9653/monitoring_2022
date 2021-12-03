@@ -113,7 +113,4 @@ dev.off()#for clean the window in r
 source("automatic_source_import.r")
 #the final images pop-up
 #finish out of topic
-       
-#pairs
-pairs(EN)
-#
+
