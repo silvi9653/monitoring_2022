@@ -128,7 +128,7 @@ gp4<-ggRGB(l1992, r=1,g=2,b=3, stretch="log")
 #patchwork in a multiframe
 gp1+gp2+gp3+gp4
 #multitemporal patchwork
-#plot th two images
+#plot the two images
 gp1<-ggRGB(l1992, r=1,g=2,b=3)
 gp5<-ggRGB(l2006, r=1,g=2,b=3)
 #patchwork in a multiframe
