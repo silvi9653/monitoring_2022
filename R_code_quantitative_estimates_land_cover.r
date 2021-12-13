@@ -3,9 +3,11 @@
 #install.packages("RStoolbox") 
 #install.packages("ggplot2")
 #install.packages("gridExtra")
+#install.packages("patchwork")
 library(RStoolbox) #we use this packeges for classification
 library(ggplot2) #we use this packeges for the graph 
 library(gridExtra)# we use this packeges for sum of graph
+library(patchwork)# we use this instead of gridExtra
 #call library raster and set the working directory
 library(raster)
 setwd("C:/lab/")
@@ -28,7 +30,7 @@ plotRGB(l1992, r=1, g=2, b=3, stretch="lin")
 l2006<-list_rast[[2]]
 plotRGB(l2006, r=1, g=2, b=3, stretch="lin")
 
-#library(RStollbox)
+#here we use library(RStollbox)
 #unsupervised classification: to classified the pixel to the type of ground
 l1992c<-unsuperClass(l1992, nClasses=2)
 l1992c
@@ -55,7 +57,7 @@ proportion1992<-data.frame(cover,prop1992)
 #to see the table
 proportion1992
 
-#library(ggplot2)
+#here we use library(ggplot2)
 #create ggplot(percentages, aesthetics (x=*name of first column* , y=*name of second column*, color=))
 #different kind of ggplot, we use geom_bar (bar charts)
 ggplot(proportion1992, aes(x=cover, y= prop1992, color= cover)) + geom_bar(stat="identity",fill="white")
@@ -90,5 +92,33 @@ proportion
 #different kind of ggplot, we use geom_bar (bar charts)
 p1<-ggplot(proportion, aes(x=cover, y= prop1992, color= cover)) + geom_bar(stat="identity",fill="white") + ylim(0,1) # graph 1992
 p2<-ggplot(proportion, aes(x=cover, y= prop2006, color= cover)) + geom_bar(stat="identity",fill="white") + ylim(0,1) #graph 2006
-#library(gridExtra)
+
+#here we use library(gridExtra)
 grid.arrange(p1,p2,nrow=1)
+#important error not put nrows 's' rapresent an additional object so the function don't work
+
+#day3.....
+#if grid.arrange not work
+#new packages patchwork
+#install.packages("patchwork")
+#here we use library(patchwork)
+#call two ggplot
+p1<-ggplot(proportion, aes(x=cover, y= prop1992, color= cover)) + geom_bar(stat="identity",fill="white") + ylim(0,1) # graph 1992
+p2<-ggplot(proportion, aes(x=cover, y= prop2006, color= cover)) + geom_bar(stat="identity",fill="white") + ylim(0,1) #graph 2006
+#create the multiframe
+p1+p2
+#if one graph in top of the other
+p1/p2
+#patchwork is working even with raster data 
+l1992 #call the data to see if we have in the memory
+#instead of using plotRGB we are going to use ggRGB
+plotRGB(l1992, r=1,g=2,b=3, stretch="Lin")#call to see the prevous function
+ggRGB(l1992, r=1,g=2,b=3) #set a standard coordinate in the axes
+#play with stretch in ggRGB
+ggRGB(l1992, r=1,g=2,b=3, stretch="lin")
+ggRGB(l1992, r=1,g=2,b=3, stretch="hist")
+ggRGB(l1992, r=1,g=2,b=3, stretch="sqrt")#compact the data
+ggRGB(l1992, r=1,g=2,b=3, stretch="log")#natural logarithm
+
+
+
