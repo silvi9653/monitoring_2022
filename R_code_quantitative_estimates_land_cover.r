@@ -120,5 +120,18 @@ ggRGB(l1992, r=1,g=2,b=3, stretch="hist")
 ggRGB(l1992, r=1,g=2,b=3, stretch="sqrt")#compact the data
 ggRGB(l1992, r=1,g=2,b=3, stretch="log")#natural logarithm
 
-
+#assaign the object
+gp1<-ggRGB(l1992, r=1,g=2,b=3, stretch="lin")
+gp2<-ggRGB(l1992, r=1,g=2,b=3, stretch="hist")
+gp3<-gp1<-ggRGB(l1992, r=1,g=2,b=3, stretch="sqrt")
+gp4<-ggRGB(l1992, r=1,g=2,b=3, stretch="log")
+#patchwork in a multiframe
+gp1+gp2+gp3+gp4
+#multitemporal patchwork
+#plot th two images
+gp1<-ggRGB(l1992, r=1,g=2,b=3)
+gp5<-ggRGB(l2006, r=1,g=2,b=3)
+#patchwork in a multiframe
+gp1+gp5 
+gp1/gp5 #one on top of the other
 
