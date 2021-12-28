@@ -8,8 +8,9 @@ load("biomes_multivar.RData") #load the file
 ls() #see the store element in r
 #we interest biomes and biomes_types 
 biomes #to see the structure of the element
-biomes_types #to see the type of biomesa
+biomes_types #to see the type of biomes
 
+#plot per species matrix
 multivar<-decorana(biomes)
 multivar
 
