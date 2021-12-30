@@ -21,7 +21,7 @@ library(patchwork)
 setwd("C:/lab/exam")
 
 #import all the images with lapply function
-rlist<- list.files(pattern="SWI10") #create a list with a common pattern
+rlist<- list.files(pattern="SWI") #create a list with a common pattern
 rlist 
 
 list_rast<-lapply(rlist,brick) #plot the images
@@ -36,3 +36,34 @@ wsoil
 cl<-colorRampPalette(c("blue","light blue","pink","yellow"))(100)
 plot(wsoil, col=cl)
 
+#import all the images with lapply function
+rlist_temp<- list.files(pattern="LST") #create a list with a common pattern
+rlist_temp
+
+list_temp<-lapply(rlist_temp,brick) #plot the images
+list_temp #view the information of the pictures
+
+#make the stack, to have all of them togheter
+temp<-stack(list_rast)
+temp
+
+#plot the images 
+plot(temp, col=cl)
+
+rlist_veg<- list.files(pattern="FCOVER") #create a list with a common pattern
+rlist_veg
+
+list_veg<-lapply(rlist_veg,brick) #plot the images
+list_veg #view the information of the pictures
+
+#make the stack, to have all of them togheter
+veg<-stack(list_veg)
+veg
+
+#plot the images 
+plot(veg, col=cl)
+
+par(mfrow=c(4,4))
+plot(wsoil, col=cl)
+plot(temp, col=cl)
+plot(veg, col=cl)
