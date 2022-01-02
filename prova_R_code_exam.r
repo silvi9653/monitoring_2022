@@ -67,3 +67,11 @@ par(mfrow=c(4,4))
 plot(wsoil, col=cl)
 plot(temp, col=cl)
 plot(veg, col=cl)
+
+ext<-c(-50,0,-100,0) #create the extenction of coordiantes first
+#crop use the stack and than extarct the images
+crop_2011<-crop(veg$X2011.02.03,ext) 
+crop_2020<-crop(veg$X2020.02.03,ext) 
+par(mfrow=c(2,1))
+plot(crop_2011, col=cl)
+plot(crop_2020, col=cl)
