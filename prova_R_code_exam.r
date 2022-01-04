@@ -1,20 +1,20 @@
 #This is the code for the final exam
 #download images from copernicus program
-#Soil Water Index - 10-daily SWI 12.5km Global V3
-#I want to analyze who the vegetation condition the soilwater content and the temperature  
+#Soil Water Index - daily SWI 12.5km Global V3
+#I want to analyze how the vegetation prensence in the Amazonia forest condition the soilwater content and the temperature  
 
-#import all the library 
+# install and import all the library 
 #install.packages("ncdf4")
 #install.packages("raster")
 #install.packages("viridis")
 #install.packages("RStoolbox")
 #install.packages("ggplot2")
 #install.packages("patchwork")
-library(ncdf4)
-library(raster)
-library(viridis)
-library(RStoolbox)
-library(ggplot2)
+library(ncdf4) #for import the copernicus file 
+library(raster) #for work with raster file
+library(viridis) # for plot the color palette
+library(RStoolbox) 
+library(ggplot2) 
 library(patchwork)
 
 #set the working directory
@@ -31,10 +31,27 @@ list_rast #view the information of the pictures
 wsoil<-stack(list_rast)
 wsoil 
 
-#plot the images of july
-#first create a color ramp palette
-cl<-colorRampPalette(c("blue","light blue","pink","yellow"))(100)
+#create a palette first
+cl<- colorRampPalette(c("darkblue","blue","lightblue"))(100)
+#plot the images 
 plot(wsoil, col=cl)
+
+# now crop them in the Amazon Forest
+ext<-c(-100,0,-50,20) #create the extenction of coordiantes first
+#crop use the stack and than extarct the images
+water2011<-crop(wsoil$Soil.Water.Index.with.T.5.1,ext) 
+water2020<-crop(wsoil$Soil.Water.Index.with.T.5.2,ext) 
+water2011 #call the object to see the name information
+#plot the images with ggplot()
+gp1<-ggplot()+geom_raster(water2011, mapping=aes(x=x, y=y, fill=Soil.Water.Index.with.T.5.1 ))+
+scale_fill_viridis()+#asign the defoult viridis palette
+ggtitle("Soil water 2011")
+gp2<-ggplot()+geom_raster(water2020, mapping=aes(x=x, y=y, fill=Soil.Water.Index.with.T.5.2))+
+scale_fill_viridis()+#asign the defoult viridis palette
+ggtitle("Soil water 2020")
+#put one in top of the other
+gp1/gp2
+
 
 #import all the images with lapply function
 rlist_temp<- list.files(pattern="LST") #create a list with a common pattern
@@ -50,35 +67,15 @@ temp
 #plot the images 
 plot(temp, col=cl)
 
-rlist_veg1<- list.files(pattern="LAI") #create a list with a common pattern
-rlist_veg1
+rlist_veg<- list.files(pattern="LAI300") #create a list with a common pattern
+rlist_veg
 
-list_veg1<-lapply(rlist_veg1,raster) #plot the images
-list_veg1 #view the information of the pictures
-
-#make the stack, to have all of them togheter
-veg1<-stack(list_veg1)
-veg1
-
-rlist_veg2<- list.files(pattern="FCOVER") #create a list with a common pattern
-rlist_veg2
-
-list_veg2<-lapply(rlist_veg2,raster) #plot the images
-list_veg2 #view the information of the pictures
+list_veg<-lapply(rlist_veg,raster) #plot the images
+list_veg #view the information of the pictures
 
 #make the stack, to have all of them togheter
-veg2<-stack(list_veg2)
-veg2
-
-rlist_veg3<- list.files(pattern="NDVI") #create a list with a common pattern
-rlist_veg3
-
-list_veg3<-lapply(rlist_veg3,raster) #plot the images
-list_veg3 #view the information of the pictures
-
-#make the stack, to have all of them togheter
-veg3<-stack(list_veg3)
-veg3
+veg<-stack(list_veg)
+veg
 
 #plot the images 
 plot(veg, col=cl)
