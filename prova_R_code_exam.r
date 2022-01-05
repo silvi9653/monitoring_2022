@@ -20,7 +20,7 @@ library(patchwork)
 #set the working directory
 setwd("C:/lab/exam")
 
-#import all the images with lapply function
+#import images of soilwater with lapply function
 rlist<- list.files(pattern="SWI") #create a list with a common pattern
 rlist 
 
@@ -40,7 +40,7 @@ plot(wsoil, col=cl)
 ext<-c(-100,0,-50,20) #create the extenction of coordiantes first
 #crop use the stack and than extarct the images
 water2011<-crop(wsoil$Soil.Water.Index.with.T.5.1,ext) 
-water2020<-crop(wsoil$Soil.Water.Index.with.T.5.2,ext) 
+water2011<-crop(wsoil$Soil.Water.Index.with.T.5.2,ext) 
 water2011 #call the object to see the name information
 #plot the images with ggplot()
 gp1<-ggplot()+geom_raster(water2011, mapping=aes(x=x, y=y, fill=Soil.Water.Index.with.T.5.1 ))+
@@ -52,52 +52,53 @@ ggtitle("Soil water 2020")
 #put one in top of the other
 gp1/gp2
 
+difcl<-colorRampPalette(c("darkblue","yellow","red","black"))(100)#create the color ramp palette
+#yellow use for catch the eyes view 
+waterdif<-water2011-water2011
+plot(waterdif, col=difcl)#plotting the images
 
-#import all the images with lapply function
-rlist_temp<- list.files(pattern="LST") #create a list with a common pattern
-rlist_temp
-
-list_temp<-lapply(rlist_temp,raster) #plot the images
-list_temp #view the information of the pictures
-
-#make the stack, to have all of them togheter
-temp<-stack(list_rast)
-temp
-
-#plot the images 
-plot(temp, col=cl)
-
-rlist_veg<- list.files(pattern="LAI300") #create a list with a common pattern
-rlist_veg
-
-list_veg<-lapply(rlist_veg,raster) #plot the images
-list_veg #view the information of the pictures
-
-#make the stack, to have all of them togheter
-veg<-stack(list_veg)
-veg
-
-#plot the images 
-plot(veg, col=cl)
-
-par(mfrow=c(4,4))
-plot(wsoil, col=cl)
-plot(temp, col=cl)
-plot(veg, col=cl)
-
-ext<-c(-50,20,-100,0) #create the extenction of coordiantes first
+#upload the data of temperature
+#single layer so we use a raster function
+temp2011n<-raster("c_gls_LST_201101180100_GLOBE_GEO_V1.2.1.nc")
+temp2011d<-raster("c_gls_LST_201101181300_GLOBE_GEO_V1.2.1.nc")
+# now crop them in the Amazon Forest
+ext<-c(-100,0,-50,20) #create the extenction of coordiantes first
 #crop use the stack and than extarct the images
-crop_2011<-crop(wsoil$X2011.01.18,ext) 
-crop_2020<-crop(veg$X2020.02.03,ext) 
-par(mfrow=c(2,1))
-plot(crop_2011, col=cl)
-plot(crop_2020, col=cl)
+cn2011<-crop(temp2011n,ext) 
+cd2011<-crop(temp2011d,ext) 
+cn2011 #call to see the name 
+cd2011
+#plot the crop images
+tgp1<-ggplot()+geom_raster(cn2011, mapping=aes(x=x, y=y, fill=LST.Error.Bar ))+
+scale_fill_viridis()+#asign the defoult viridis palette
+ggtitle("Temperature at 1 am")
+tgp2<-ggplot()+geom_raster(cd2011, mapping=aes(x=x, y=y, fill=LST.Error.Bar))+
+scale_fill_viridis()+#asign the defoult viridis palette
+ggtitle("Temprature at 1 pm")
+#put one images in top of the other
+tgp1/tgp2
+#calculate the gradient of temperature
+temp2011<-cd2011-cn2011 #create the matematical relation
+plot(temp2011, col=difcl)#plotting the images
 
-ggplot()+geom_raster(wsoil, mapping=aes(x=x, y=y, fill=X2011.01.18))+
-scale_fill_viridis()#asign the defoult viridis palette
+#upload LAI data
+LAI2014<-raster("c_gls_LAI300_201401100000_GLOBE_PROBAV_V1.0.1.nc")
+LAI2020<-raster("c_gls_LAI300_202001100000_GLOBE_PROBAV_V1.0.1.nc")
+ext<-c(-100,0,-50,20) #create the extenction of coordiantes first
+#crop use the stack and than extarct the images
+cLAI2014<-crop(LAI2014,ext) 
+cLAI2020<-crop(LAI2020,ext) 
+cLAI2014 #call to see the name 
+cLAI2020
+#plot the crop images
+LAIgp1<-ggplot()+geom_raster(cLAI2014, mapping=aes(x=x, y=y, fill=Leaf.Area.Index.333m  ))+
+scale_fill_viridis()+#asign the defoult viridis palette
+ggtitle("LAI in 2014")
+LAIgp2<-ggplot()+geom_raster(cLAI2020, mapping=aes(x=x, y=y, fill=Leaf.Area.Index.333m ))+
+scale_fill_viridis()+#asign the defoult viridis palette
+ggtitle("LAI in 2020")
+#put one images in top of the other
+LAIgp1/LAIgp2
 
-gp1<-ggplot()+geom_raster(veg, mapping=aes(x=x, y=y, fill=X2019.01.24 ))+
-scale_fill_viridis()#asign the defoult viridis palette
-gp2<-ggplot()+geom_raster(veg, mapping=aes(x=x, y=y, fill=X2020.01.24 ))+
-scale_fill_viridis()#asign the defoult viridis palette
-gp1/gp2
+LAIdif<-cLAI2014-cLAI2020
+plot(LAIdif, col=difcl)#plotting the images
