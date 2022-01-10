@@ -19,5 +19,10 @@ plot(multivar)
 #grouping of species
 attach(biomes_types)
 ordiellipse(multivar, type, col=c("black","red","green","blue"), kind="ehull", lwd=3)
-
 ordispider(multivar, type, col=c("black","red","green","blue"), label=T)
+
+pdf("multivar.pdf")
+plot(multivar)
+ordiellipse(multivar, type, col=c("black","red","green","blue"), kind = "ehull", lwd=3)
+ordispider(multivar, type, col=c("black","red","green","blue"), label = T) 
+dev.off()
