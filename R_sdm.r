@@ -32,8 +32,7 @@ presences<-species[species$Occurrence==1,]
 absences<-species[species$Occurrence==0,]
 
 #plot the data
-plot(species, pch=19) 
-#pch in r to choose the icon to view the data
+plot(species, pch=19) #pch in r to choose the icon to view the data
 
 #plot the single subset
 plot(presences, pch=19, col="blue") 
@@ -58,12 +57,26 @@ cl <- colorRampPalette(c('blue','orange','red','yellow')) (100)
 plot(preds, col=cl) 
 
 plot(preds$elevation, col=cl) #plot only the elevation
-points(presences,pch=19) #ad the presence data in the elevation images
+points(presences,pch=19) #add the presence data in the elevation images
 
-plot(preds$temperature, col=cl) #plot only the elevation
+plot(preds$temperature, col=cl) #plot only the temperature
 points(presences,pch=19)
 
-plot(preds$vegetation, col=cl) #plot only the elevation
+plot(preds$vegetation, col=cl) #plot only the vegetation
 points(presences,pch=19)
 
+#day2.............
+#importing the source script
+setwd("C:/lab/")
+#source() the file
+source("R_code_source_sdm")
+
+#call the stack create before
+preds
+#explain to the model what we training and predictors data
+datasdm<-sdmData(train=species, predictors=preds)
+#call the objects to see the table
+datasdm
+#create the model
+m1<-sdm(formula=Occurrence~temperature+elevation+precipitation+vegetation, data=datasdm,methods="glm")
 
