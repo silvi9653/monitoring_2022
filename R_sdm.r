@@ -69,7 +69,7 @@ points(presences,pch=19)
 #importing the source script
 setwd("C:/lab/")
 #source() the file
-source("R_code_source_sdm")
+source("R_code_source_sdm.r")
 
 #call the stack create before
 preds
@@ -79,4 +79,18 @@ datasdm<-sdmData(train=species, predictors=preds)
 datasdm
 #create the model
 m1<-sdm(formula=Occurrence~temperature+elevation+precipitation+vegetation, data=datasdm,methods="glm")
+#create the prediction map 
+#make the function assign the model m1 and the data preds
+p1<-predict(m1, newdata=preds)
+p1 #raster layer
+#plot the final prediction
+plot(p1,col=cl)
+points(presences,pch=19)#put the precences on top of the images
+
+#create the final stack of preds and the prediction map
+s1<-stack(preds,p1)
+#plot the stack so we have all together
+plot(s1, col=cl)
+#change the name of the maps
+names(s1)<-c("elevation","precipitaion","temperature","vegetation","model")
 
