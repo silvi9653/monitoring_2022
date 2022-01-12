@@ -3,7 +3,7 @@
 #I compare the first ten days of the 2014 and the 2021 to analyze the deforestation problem in this region
 #download images from copernicus program
 #Soil Water Index - 10-daily SWI 12.5km Global V3
-#LAI 300m V1
+#LAI - 10 daialy 300m V1
 
 # install and import all the library 
 #install.packages("ncdf4")
@@ -22,15 +22,18 @@ library(patchwork) #for multiframe graphics
 #set the working directory
 setwd("C:/lab/exam")
 
-#import images of soilwater with lapply function
-rlist<- list.files(pattern="SWI10") #create a list with a common pattern
-rlist 
+#import all the images with lapply function
+#first create a list with a common pattern
+rlist<- list.files(pattern="gls") 
+rlist #chake if we have all the images import right 
 
-list_rast<-lapply(rlist,raster) #plot the images
-list_rast #view the information of the pictures
+#use lapply finction to import like raster images
+list_rast<-lapply(rlist,brick) 
+list_rast #view the information of the images
 
+#take only the image for soil water index
 #make the stack, to have all of them togheter
-wsoil<-stack(list_rast)
+wsoil<-stack(list_rast$ X2014.01.01, list_rast$X2021.01.01)
 wsoil 
 
 #create a palette first
@@ -41,14 +44,16 @@ plot(wsoil, col=cl)
 # now crop them in the Amazon Forest
 ext<-c(-100,0,-50,20) #create the extenction of coordiantes first
 #crop use the stack and than extarct the images
-water2014<-crop(wsoil$Soil.Water.Index.with.T.5.1,ext) 
-water2021<-crop(wsoil$Soil.Water.Index.with.T.5.2,ext) 
+water2014<-crop(wsoil$Percent.Valid.Observations.with.T.15.1,ext) 
+water2021<-crop(wsoil$Percent.Valid.Observations.with.T.15.2 ,ext) 
 water2014 #call the object to see the name information
+water2021 #call the object to see the name information
+
 #plot the images with ggplot()
-gp1<-ggplot()+geom_raster(water2014, mapping=aes(x=x, y=y, fill=Soil.Water.Index.with.T.5.1 ))+
+gp1<-ggplot()+geom_raster(water2014, mapping=aes(x=x, y=y, fill=Percent.Valid.Observations.with.T.15.1 ))+
 scale_fill_viridis()+#asign the defoult viridis palette
 ggtitle("Soil water 2014")
-gp2<-ggplot()+geom_raster(water2021, mapping=aes(x=x, y=y, fill=Soil.Water.Index.with.T.5.2))+
+gp2<-ggplot()+geom_raster(water2021, mapping=aes(x=x, y=y, fill=Percent.Valid.Observations.with.T.15.2 ))+
 scale_fill_viridis()+#asign the defoult viridis palette
 ggtitle("Soil water 2021")
 #put one in top of the other
@@ -59,9 +64,7 @@ difcl<-colorRampPalette(c("darkblue","yellow","red","black"))(100)#create the co
 waterdif<-water2014-water2021
 plot(waterdif, col=difcl)#plotting the images
 
-#upload LAI data
-LAI2014<-raster("c_gls_LAI300_201401100000_GLOBE_PROBAV_V1.0.1.nc")
-LAI2021<-raster("c_gls_LAI300_202101100000_GLOBE_OLCI_V1.1.1.nc")
+
 #now crop them in the Amazon Forest
 cLAI2014<-crop(LAI2014,ext) 
 cLAI2021<-crop(LAI2021,ext) 
@@ -80,9 +83,6 @@ LAIgp1/LAIgp2
 LAIdif<-cLAI2014-cLAI2021
 plot(LAIdif, col=difcl)#plotting the images
 
-#upload the data of temperature
-#single layer so we use a raster function
-temp2021<-raster("c_gls_LST10-DC_202101010000_GLOBE_GEO_V1.2.1.nc")
 # now crop them in the Amazon Forest
 c2021<-crop(temp2021,ext) 
 c2011 #call to see the name 
