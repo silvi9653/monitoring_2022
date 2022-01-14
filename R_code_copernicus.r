@@ -8,12 +8,12 @@
 #install.packages("RStoolbox")
 #install.packages("ggplot2")
 #install.packages("patchwork")
-library(ncdf4)
-library(raster)
-library(viridis)
-library(RStoolbox)
-library(ggplot2)
-library(patchwork)
+library(ncdf4) #for import the copernicus file 
+library(raster) #for work with raster file
+library(viridis) # for plot the color palette
+library(RStoolbox)#useful for remote sensing image processing
+library(ggplot2) # for create graphics
+library(patchwork) #for multiframe graphics
 #set the working directory
 setwd("C:/lab/copernicus")
 
@@ -24,13 +24,13 @@ snow20211214<-raster("c_gls_SCE_202112140000_NHEMI_VIIRS_V1.0.1.nc")
 #snow20211214<-brick("c_gls_SCE_202112140000_NHEMI_VIIRS_V1.0.1.nc")
 #in this case it's sign 1 layer so we use raster function
 snow20211214 #call the objects to see the information of the picture
-#plot the images
+#plot the image
 plot(snow20211214)
 
 #day2....
 #make the color rampe palette
 cl<-colorRampPalette(c("dark blue", "blue", "light blue"))(100)
-plot(snow20211214, col=cl)
+plot(snow20211214, col=cl) #assign color to the image and plot it
 
 #use viridis packages for color palette also for colorblind people its nice 
 # https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html
