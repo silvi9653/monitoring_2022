@@ -6,7 +6,7 @@ setwd("C:/lab/")
 
 #install rgdal packages, for view the images defor1_ and defor2_
 #install.packages("rgdal")
-library(rgdal)
+library(rgdal) #Provides bindings to the 'Geospatial' Data Abstraction Library
 #creat brick object for import images
 L1992<-brick("defor1_.png")
 #to see the information of the file we use
