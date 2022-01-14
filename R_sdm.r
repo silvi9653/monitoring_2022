@@ -3,12 +3,12 @@
 # install.packages("sdm")
 # install.packages("rgdal")
 
-library(sdm)
-library(raster) # predictors
-library(rgdal) # species
+library(sdm)#for developing species distribution models
+library(raster) #for work with raster file
+library(rgdal) #Provides bindings to the 'Geospatial' Data Abstraction Library
 
 #species data
-file <- system.file("external/species.shp", package="sdm")
+file <- system.file("external/species.shp", package="sdm") #call directly the file
 file #to see the path of the file
 
 #import data
