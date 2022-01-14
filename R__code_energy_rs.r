@@ -22,8 +22,8 @@ plotRGB(L1992,r=2, g=3, b=1, stretch="Lin")#NIR on blue band
 L2006<-brick("defor2_.png")# import second images from 2006 
 L2006
 plotRGB(L2006, r=1, g=2, b=3,  stretch="Lin")#plotting the file
-#use par function 
-par(mfrow=c(2,1))#create the multiframe
+#use par function create multiframe
+par(mfrow=c(2,1))#the first number is the number of the row in the multiframe the second number of column
 #plot the two images
 plotRGB(L1992,r=1, g=2, b=3, stretch="Lin")
 plotRGB(L2006, r=1, g=2, b=3,  stretch="Lin")
