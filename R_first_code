@@ -57,7 +57,7 @@ summary(silviatable)
 #Info on just one variable 
 summary(silviatable$fishes)
 
-#create a istogram of the data 
+#create a histogram of the data 
 #hist(x)
 hist(fishes)
 hist(silviatable$fishes)
