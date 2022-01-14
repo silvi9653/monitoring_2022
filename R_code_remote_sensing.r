@@ -74,7 +74,7 @@ clb<- colorRampPalette(c("dark blue","blue","light blue"))(100)
 plot(L2011$B1_sre, col=clb)    
 
 #chain two images in multiframe graph
-par(mfrow=c(1,2)) #the first number is the namer of the row in the multiframe the second number of column
+par(mfrow=c(1,2)) #the first number is the number of the row in the multiframe the second number of column
 plot(L2011$B1_sre, col=clb)
 clg<- colorRampPalette(c("dark green","green","light green"))(100)
 plot(L2011$B2_sre, col=clg)
