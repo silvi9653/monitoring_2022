@@ -3,7 +3,7 @@
 
 #install.packeges("raster")
 #set the library and working directory
-library(raster)
+library(raster) #for work with raster file
 setwd("C:/lab/EN/")
 
 #import data -> brick function
