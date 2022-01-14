@@ -3,7 +3,7 @@
 # raster packages to manage: https://cran.r-project.org/web/packages/raster/index.html
 # install.packages("arg1,arg2")
 
-install.packages("raster")
+install.packages("raster") #for work with raster file
 
 # for use the packages use function: library()
 library(raster)
@@ -23,13 +23,14 @@ L2011
 #min values :         0.0,         0.0,         0.0,         0.0,         0.0,       295.1,         0.0 
 #max values :   1.0000000,   0.2563655,   0.2591587,   0.5592193,   0.4894984, 305.2000000,   0.3692634 
 
+#plot the image I import
 plot(L2011)
 #B1 is the reflectance in the blue band
 #B2 is the reflectance in the green band
 #B3 is the reflectance in the red band
 #change color palette; (c)=array; (numer)= toness of the palette
-cl <- colorRampPalette(c("black","grey","light grey"))(100)
-plot(L2011,col=cl)
+cl <- colorRampPalette(c("black","grey","light grey"))(100) #create color palette
+plot(L2011,col=cl) #assign color to image
 #assign rgb color
 plotRGB(L2011, r=3, g=2, b=1, stretch="Lin")
 
@@ -42,8 +43,8 @@ plotRGB(L2011, r=3, g=2, b=1, stretch="Lin")
 #plot the single band by name B2_sre (spectro reflection)
 plot(L2011$B2_sre)
 
-cl<- colorRampPalette(c("black","grey","light grey"))(100)
-plot(L2011$B2_sre, col=cl)
+cl<- colorRampPalette(c("black","grey","light grey"))(100) #build the color palette
+plot(L2011$B2_sre, col=cl) #assign to image
 
 #change the colorRampPalette with dark green and light green, e.g. clg
 clg<- colorRampPalette(c("dark green","green","light green"))(100)
@@ -54,7 +55,7 @@ clb<- colorRampPalette(c("dark blue","blue","light blue"))(100)
 plot(L2011$B1_sre, col=clb)
 
 #chain two images in multiframe graph
-par(mfrow=c(1,2)) #the first number is the namer of the row in the multiframe the second number of column
+par(mfrow=c(1,2)) #the first number is the number of the row in the multiframe the second number of column
 plot(L2011$B1_sre, col=clb)
 plot(L2011$B2_sre, col=clg)
 
@@ -67,7 +68,7 @@ plot(L2011$B2_sre, col=clg)
 
 # day 3.....
 
-plot(L2011$B1_sre)
+plot(L2011$B1_sre) #plot the image with first band
 #assign the color in the blue band
 clb<- colorRampPalette(c("dark blue","blue","light blue"))(100)
 plot(L2011$B1_sre, col=clb)    
@@ -92,7 +93,7 @@ plot(L2011$B3_sre, col=clr)
 clNIR<- colorRampPalette(c("red","orange","yellow"))(100) #color for NIR
 plot(L2011$B4_sre, col=clNIR)
 
-dev.off()
+dev.off() #clean the frame 
 #RGB setting
 plotRGB(L2011,r=3, g=2, b=1, stretch="Lin")#linear stretch, the number in the function is for the 3 band  
 
