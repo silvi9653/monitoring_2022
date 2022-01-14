@@ -1,5 +1,6 @@
 #R_code_quantitative_estimates_land_cover
 #install new packages
+#install.packages("raster")
 #install.packages("RStoolbox") 
 #install.packages("ggplot2")
 #install.packages("gridExtra")
@@ -9,18 +10,18 @@ library(ggplot2) #we use this packeges for the graph
 library(gridExtra)# we use this packeges for sum of graph
 library(patchwork)# we use this instead of gridExtra
 #call library raster and set the working directory
-library(raster)
+library(raster)#for work with raster file
 setwd("C:/lab/")
-#use lapplay for import due images
+#use lapplay for import two images
 # first create a list the files available
 rlist<-list.files(pattern="defor") #pattern the common name of the element we want to import
 rlist #to see the component of the object
 #second import the images togheter with lapplay
 list_rast<-lapply(rlist,brick)
 list_rast #to see the information of the images
-#plot the first images
+#plot the first image
 plot(list_rast[[1]])
-#plot RGB first images
+#plot RGB first image
 #defor: NIR 1, red 2, green 3
 plotRGB(list_rast[[1]], r=1, g=2, b=3) #NIR is the first band we put it in red componement
 #assign a simple name 
@@ -34,7 +35,7 @@ plotRGB(l2006, r=1, g=2, b=3, stretch="lin")
 #unsupervised classification: to classified the pixel to the type of ground
 l1992c<-unsuperClass(l1992, nClasses=2)
 l1992c
-plot(l1992c$map)#plot the images
+plot(l1992c$map)#plot the image
 #how many pixel is forest or agricoltural in my map
 #value 1 = agricoultural areas and water
 #value2 = forest
