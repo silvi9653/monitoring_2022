@@ -103,10 +103,10 @@ cFC2020
 #plot the crop images
 Veg1<-ggplot()+geom_raster(cFC2010, mapping=aes(x=x, y=y, fill=Fraction.of.green.Vegetation.Cover.1km ))+
 scale_fill_viridis(option="magma")+#asign the magma color in viridis palette
-ggtitle("FCover in 2010")
+ggtitle("FCover winter in 2010")
 Veg2<-ggplot()+geom_raster(cFC2020, mapping=aes(x=x, y=y, fill=Fraction.of.green.Vegetation.Cover.1km ))+
 scale_fill_viridis(option="magma")+#asign the magma color in viridis palette
-ggtitle("FCover in 2020")
+ggtitle("FCover winter in 2020")
 #put one images in top of the other
 Veg1/Veg2
 
@@ -116,20 +116,21 @@ FCdif<-cFC2010-cFC2020 #make the difference
 plot(FCdif, col=difcl)#plotting the images
 
 # Now I export the images
-png("Fcover january 2010-2020.png") #assign name
+png("Fcover winter  2010-2020.png") #assign name
 Veg1<-ggplot()+geom_raster(cFC2010, mapping=aes(x=x, y=y, fill=Fraction.of.green.Vegetation.Cover.1km ))+
 scale_fill_viridis(option="magma")+#asign the magma color in viridis palette
-ggtitle("FCover in 2010")
+ggtitle("FCover in winter 2010")
 Veg2<-ggplot()+geom_raster(cFC2020, mapping=aes(x=x, y=y, fill=Fraction.of.green.Vegetation.Cover.1km ))+
 scale_fill_viridis(option="magma")+#asign the magma color in viridis palette
-ggtitle("FCover in 2020")
+ggtitle("FCover winter  in 2020")
 #put one images in top of the other
 Veg1/Veg2
 dev.off()
 
-png(" difference Fcover january 2010-2020.png") #assign name
+png(" difference Fcover winter  2010-2020.png") #assign name
 difcl<-colorRampPalette(c("darkblue","yellow","red","black"))(100)#call the color ramp palette
 plot(FCdif, col=difcl)#plotting the images
 dev.off()
 
 #end of the program
+
