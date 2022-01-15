@@ -1,5 +1,5 @@
 #This is the code for the final exam
-#I want to analyze how the vegetation prensence in the Amazonia forest condition the soilwater content.
+#I want to analyze how the vegetation in the Amazonia forest condition the soilwater content.
 #I compare four month since november 2009 till march 2010 and the same in 2019-2020
 #download images from copernicus program
 #Soil Water Index - 10-daily SWI 12.5km Global V3
