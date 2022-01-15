@@ -1,9 +1,9 @@
 #This is the code for the final exam
 #I want to analyze how the vegetation prensence in the Amazonia forest condition the soilwater content.
-#I compare the first ten days of the 2014 and the 2021 to analyze the deforestation problem in this region
+#I compare four month since november 2009 till march 2010 and the same in 2019-2020
 #download images from copernicus program
 #Soil Water Index - 10-daily SWI 12.5km Global V3
-#LAI - 10 daialy 300m V1
+#FCOVER -  1km V2
 
 # install and import all the library 
 #install.packages("ncdf4")
@@ -22,82 +22,114 @@ library(patchwork) #for multiframe graphics
 #set the working directory
 setwd("C:/lab/exam")
 
-#import all the images with lapply function
+#import water soil images all togheter with lapply function
 #first create a list with a common pattern
-rlist<- list.files(pattern="gls") 
-rlist #chake if we have all the images import right 
+rlist<- list.files(pattern="SWI10") 
+rlist #check if we have all the images import right 
 
 #use lapply finction to import like raster images
-list_rast<-lapply(rlist,brick) 
+list_rast<-lapply(rlist,raster) 
 list_rast #view the information of the images
 
 #take only the image for soil water index
 #make the stack, to have all of them togheter
-wsoil<-stack(list_rast$ X2014.01.01, list_rast$X2021.01.01)
-wsoil 
+wsoil<-stack(list_rast)
+wsoil #call the see the names
 
+#change the names of the images
+names(wsoil)<- c("November2009",
+                 "Dicember2009",
+                 "January2010",
+                 "February2010",
+                 "March2010",
+                 "November2019",
+                 "Dicember2019",
+                 "January2020",
+                 "February2020",
+                 "March2020")
 #create a palette first
 cl<- colorRampPalette(c("darkblue","blue","lightblue"))(100)
-#plot the images 
+#plot the images and assign the color
 plot(wsoil, col=cl)
-
+#i want to see the images from january 2010 and january 2020
+#extraxt them from the stack
+jan2010<-(wsoil$January2010)
+jan2020<-(wsoil$January2020)
 # now crop them in the Amazon Forest
-ext<-c(-100,0,-50,20) #create the extenction of coordiantes first
-#crop use the stack and than extarct the images
-water2014<-crop(wsoil$Percent.Valid.Observations.with.T.15.1,ext) 
-water2021<-crop(wsoil$Percent.Valid.Observations.with.T.15.2 ,ext) 
-water2014 #call the object to see the name information
-water2021 #call the object to see the name information
+ext<-c(-90,-30,-20,10) #create the extenction of coordiantes first (x,y)
+#crop use the extarct images
+water2010<-crop(jan2010,ext) 
+water2020<-crop(jan2020,ext) 
+water2010 #call the object to see the name information
+water2020 #call the object to see the name information
 
 #plot the images with ggplot()
-gp1<-ggplot()+geom_raster(water2014, mapping=aes(x=x, y=y, fill=Percent.Valid.Observations.with.T.15.1 ))+
+gp1<-ggplot()+geom_raster(water2010, mapping=aes(x=x, y=y, fill=January2010))+
 scale_fill_viridis()+#asign the defoult viridis palette
-ggtitle("Soil water 2014")
-gp2<-ggplot()+geom_raster(water2021, mapping=aes(x=x, y=y, fill=Percent.Valid.Observations.with.T.15.2 ))+
+ggtitle("Soil water 2010")
+gp2<-ggplot()+geom_raster(water2020, mapping=aes(x=x, y=y, fill=January2020))+
 scale_fill_viridis()+#asign the defoult viridis palette
-ggtitle("Soil water 2021")
+ggtitle("Soil water 2020")
 #put one in top of the other
 gp1/gp2
 
-difcl<-colorRampPalette(c("darkblue","yellow","red","black"))(100)#create the color ramp palette
-#yellow use for catch the eyes view 
-waterdif<-water2014-water2021
-plot(waterdif, col=difcl)#plotting the images
+# Now I export the images
+png("wsoil.png") #assign name
+cl<- colorRampPalette(c("darkblue","blue","lightblue"))(100) #call the color palette
+plot(wsoil, col=cl)
+dev.off()
 
+# Now I export the images
+png("Soil water january 2010-2020.png") #assign name
+gp1<-ggplot()+geom_raster(water2010, mapping=aes(x=x, y=y, fill=January2010))+
+scale_fill_viridis()+#asign the defoult viridis palette
+ggtitle("Soil water 2010")
+gp2<-ggplot()+geom_raster(water2020, mapping=aes(x=x, y=y, fill=January2020))+
+scale_fill_viridis()+#asign the defoult viridis palette
+ggtitle("Soil water 2020")
+#put one in top of the other
+gp1/gp2
+dev.off()
 
-#now crop them in the Amazon Forest
-cLAI2014<-crop(LAI2014,ext) 
-cLAI2021<-crop(LAI2021,ext) 
-cLAI2014 #call to see the name 
-cLAI2021
+#Now I import FCOVER images with raster function
+FCOVER2010<-raster("c_gls_FCOVER_201001100000_GLOBE_VGT_V2.0.1.nc")
+FCOVER2020<-raster("c_gls_FCOVER-RT6_202001100000_GLOBE_PROBAV_V2.0.1.nc")
+
+#now crop them in the Amazon Forest #with ext cordinate that I create before
+cFC2010<-crop(FCOVER2010,ext) 
+cFC2020<-crop(FCOVER2020,ext) 
+cFC2010 #call to see the name 
+cFC2020
 #plot the crop images
-LAIgp1<-ggplot()+geom_raster(cLAI2014, mapping=aes(x=x, y=y, fill=Leaf.Area.Index.333m  ))+
-scale_fill_viridis()+#asign the defoult viridis palette
-ggtitle("LAI in 2014")
-LAIgp2<-ggplot()+geom_raster(cLAI2021, mapping=aes(x=x, y=y, fill=Leaf.Area.Index.333m ))+
-scale_fill_viridis()+#asign the defoult viridis palette
-ggtitle("LAI in 2021")
+Veg1<-ggplot()+geom_raster(cFC2010, mapping=aes(x=x, y=y, fill=Fraction.of.green.Vegetation.Cover.1km ))+
+scale_fill_viridis(option="magma")+#asign the magma color in viridis palette
+ggtitle("FCover in 2010")
+Veg2<-ggplot()+geom_raster(cFC2020, mapping=aes(x=x, y=y, fill=Fraction.of.green.Vegetation.Cover.1km ))+
+scale_fill_viridis(option="magma")+#asign the magma color in viridis palette
+ggtitle("FCover in 2020")
 #put one images in top of the other
-LAIgp1/LAIgp2
+Veg1/Veg2
 
-LAIdif<-cLAI2014-cLAI2021
-plot(LAIdif, col=difcl)#plotting the images
+#I want to see if there is a difference in this two period
+difcl<-colorRampPalette(c("darkblue","yellow","red","black"))(100)#create the color ramp palette
+FCdif<-cFC2010-cFC2020 #make the difference
+plot(FCdif, col=difcl)#plotting the images
 
-# now crop them in the Amazon Forest
-c2021<-crop(temp2021,ext) 
-c2011 #call to see the name 
-#plot the crop images
-tgp1<-ggplot()+geom_raster(cn2021, mapping=aes(x=x, y=y, fill=LST.Error.Bar ))+
-scale_fill_viridis()+#asign the defoult viridis palette
-ggtitle("Temperature in january 2021")
+# Now I export the images
+png("Fcover january 2010-2020.png") #assign name
+Veg1<-ggplot()+geom_raster(cFC2010, mapping=aes(x=x, y=y, fill=Fraction.of.green.Vegetation.Cover.1km ))+
+scale_fill_viridis(option="magma")+#asign the magma color in viridis palette
+ggtitle("FCover in 2010")
+Veg2<-ggplot()+geom_raster(cFC2020, mapping=aes(x=x, y=y, fill=Fraction.of.green.Vegetation.Cover.1km ))+
+scale_fill_viridis(option="magma")+#asign the magma color in viridis palette
+ggtitle("FCover in 2020")
+#put one images in top of the other
+Veg1/Veg2
+dev.off()
 
-tgp1
+png(" difference Fcover january 2010-2020.png") #assign name
+difcl<-colorRampPalette(c("darkblue","yellow","red","black"))(100)#call the color ramp palette
+plot(FCdif, col=difcl)#plotting the images
+dev.off()
 
-
-
-# How to esport map images
-#png("NDVI 2019 difference.png")
-#cldif <- colorRampPalette(c("blue","white","red"))(100)
-#plot(difNDVI2019, col=cldif, main="Difference in NDVI - 2019")
-#plot(coastlines, add=T)
-#dev.off()
+#end of the program
