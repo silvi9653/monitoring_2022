@@ -2,7 +2,7 @@
 #I want to analyze how the vegetation in the Amazonia forest condition the soilwater content.
 #I compare four month since november 2009 till march 2010 and the same in 2019-2020
 #download images from copernicus program
-#Soil Water Index - 10-daily SWI 12.5km Global V3
+#Soil Water Index - daily SWI 12.5km Global V3
 #FCOVER -  1km V2
 
 # install and import all the library 
@@ -24,7 +24,7 @@ setwd("C:/lab/exam")
 
 #import water soil images all togheter with lapply function
 #first create a list with a common pattern
-rlist<- list.files(pattern="SWI10") 
+rlist<- list.files(pattern="SWI") 
 rlist #check if we have all the images import right 
 
 #use lapply finction to import like raster images
