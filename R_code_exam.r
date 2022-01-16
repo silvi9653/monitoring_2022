@@ -119,7 +119,7 @@ gp1/gp2
 
 #I want to see if there is a difference in this two period
 difcl<-colorRampPalette(c("darkblue","yellow","red","black"))(100)#create the color ramp palette
-Wdif<-water2010-water2020 #make the difference
+Wdif<-w_jan_2010-w_jan_2020 #make the difference
 plot(Wdif, col=difcl)#plotting the images
 
 # Now I export the images
@@ -129,7 +129,7 @@ plot(wsoil, col=cl)
 dev.off()
 
 # Now I export the images
-png("Soil water january 2010-2020.png") #assign name
+png("Soil_water_jan_10_20.png") #assign name
 gp1<-ggplot()+geom_raster(w_jan_2010, mapping=aes(x=x, y=y, fill=January2010))+
 scale_fill_viridis()+#asign the defoult viridis palette
 ggtitle("Soil water 2010")
@@ -141,7 +141,7 @@ gp1/gp2
 dev.off()
 
 #I export also difference image
-png(" difference january water  2010-2020.png") #assign name
+png("dif_jan_water_10_20.png") #assign name
 difcl<-colorRampPalette(c("darkblue","yellow","red","black"))(100)#call the color ramp palette
 plot(Wdif, col=difcl)#plotting the images
 dev.off()
@@ -198,7 +198,7 @@ plot(FCdif, col=difcl)#plotting the images use the same color palette, I use bef
 
 
 # Now I export the images
-png("Fcover winter  2010-2020.png") #assign name
+png("Fcover_winter_10_20.png") #assign name
 Veg1<-ggplot()+geom_raster(cFC2010, mapping=aes(x=x, y=y, fill=Fraction.of.green.Vegetation.Cover.1km ))+
 scale_fill_viridis(option="magma")+#assign the magma color in viridis palette
 ggtitle("FCover in winter 2010")
@@ -209,7 +209,7 @@ ggtitle("FCover winter  in 2020")
 Veg1/Veg2
 dev.off()
 
-png(" difference Fcover winter  2010-2020.png") #assign name
+png("dif_Fcover_winter_10_20.png") #assign name
 difcl<-colorRampPalette(c("darkblue","yellow","red","black"))(100)#call the color ramp palette
 plot(FCdif, col=difcl)#plotting the images
 dev.off()
