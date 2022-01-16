@@ -176,17 +176,18 @@ dev.off() #clear the divice
 FCOVER2010<-raster("c_gls_FCOVER_201001100000_GLOBE_VGT_V2.0.1.nc")
 FCOVER2020<-raster("c_gls_FCOVER-RT6_202001100000_GLOBE_PROBAV_V2.0.1.nc")
 
-#now crop them in the Amazon Forest #with ext cordinate that I create before
+#now crop them in the Amazonian Forest 
+#with ext cordinate that I create before
 cFC2010<-crop(FCOVER2010,ext) 
 cFC2020<-crop(FCOVER2020,ext) 
 cFC2010 #call to see the name 
 cFC2020
 #plot the crop images
 Veg1<-ggplot()+geom_raster(cFC2010, mapping=aes(x=x, y=y, fill=Fraction.of.green.Vegetation.Cover.1km ))+
-scale_fill_viridis(option="magma")+#asign the magma color in viridis palette
+scale_fill_viridis(option="magma")+#assign the magma color in viridis palette
 ggtitle("FCover winter in 2010")
 Veg2<-ggplot()+geom_raster(cFC2020, mapping=aes(x=x, y=y, fill=Fraction.of.green.Vegetation.Cover.1km ))+
-scale_fill_viridis(option="magma")+#asign the magma color in viridis palette
+scale_fill_viridis(option="magma")+#assign the magma color in viridis palette
 ggtitle("FCover winter in 2020")
 #put one images in top of the other
 Veg1/Veg2
@@ -199,10 +200,10 @@ plot(FCdif, col=difcl)#plotting the images use the same color palette, I use bef
 # Now I export the images
 png("Fcover winter  2010-2020.png") #assign name
 Veg1<-ggplot()+geom_raster(cFC2010, mapping=aes(x=x, y=y, fill=Fraction.of.green.Vegetation.Cover.1km ))+
-scale_fill_viridis(option="magma")+#asign the magma color in viridis palette
+scale_fill_viridis(option="magma")+#assign the magma color in viridis palette
 ggtitle("FCover in winter 2010")
 Veg2<-ggplot()+geom_raster(cFC2020, mapping=aes(x=x, y=y, fill=Fraction.of.green.Vegetation.Cover.1km ))+
-scale_fill_viridis(option="magma")+#asign the magma color in viridis palette
+scale_fill_viridis(option="magma")+#assign the magma color in viridis palette
 ggtitle("FCover winter  in 2020")
 #put one images in top of the other
 Veg1/Veg2
