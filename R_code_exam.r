@@ -225,7 +225,7 @@ fb<-fortify(biome) #for change shapefile into a file to use with ggplot
 #plot with ggplot function, group for correct the polygon
 gbiome<-ggplot()+geom_polygon(data=fb,aes(x=long, y=lat, group=group))+theme_bw()
 #now change graphics
-gbiome<-ggplot()+geom_polygon(data=fb,aes(x=long, y=lat, group=group),fill=" ",color="black",lwd=1)+theme_bw()
+gbiome<-ggplot()+geom_polygon(data=fb,aes(x=long, y=lat, group=group),fill=" green",color="black",lwd=1)+theme_bw()
 
 #I import also the actual deforestation rate in 2021
 defo21<- readOGR("yearly_deforestation_2021_pri.shp")
@@ -270,7 +270,7 @@ barplot(tb1,
         main="Deforestation",
         xlim=c(0,16))
 #export the graph
-png("deforestation_08_20.png", width = 1800, height = 1800, res = 300)
+png("deforestation_08_20.png", width = 1800, height = 1800, res = 300) #set the dimension
 barplot(tb1,
         xlab="year",
         ylab="km lost", 
