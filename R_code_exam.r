@@ -12,13 +12,14 @@
 #install.packages("RStoolbox")
 #install.packages("ggplot2")
 #install.packages("patchwork")
+#install.packages("rgdal")
 library(ncdf4) #for import the copernicus file 
 library(raster) #for work with raster file
 library(viridis) # for plot the color palette
 library(RStoolbox) #useful for remote sensing image processing 
 library(ggplot2)  # for create graphics 
 library(patchwork) #for multiframe graphics
-
+library(rgdal) #use to open shape file
 #set the working directory
 setwd("C:/lab/exam")
 
@@ -126,7 +127,7 @@ plot(Wdif, col=difcl)#plotting the images
 png("wsoil.png") #assign name
 cl<- colorRampPalette(c("darkblue","blue","lightblue"))(100) #call the color palette
 plot(wsoil, col=cl)
-dev.off()
+dev.off()#close the procedure
 
 # Now I export the images
 png("Soil_water_jan_10_20.png") #assign name
@@ -138,13 +139,13 @@ scale_fill_viridis()+#asign the defoult viridis palette
 ggtitle("Soil water 2020")
 #put one in top of the other
 gp1/gp2
-dev.off()
+dev.off()#close the procedure
 
 #I export also difference image
 png("dif_jan_water_10_20.png") #assign name
 difcl<-colorRampPalette(c("darkblue","yellow","red","black"))(100)#call the color ramp palette
 plot(Wdif, col=difcl)#plotting the images
-dev.off()
+dev.off()#close the procedure
 
 #create a histogram for a better analisy
 hist(w_jan_2010)
@@ -178,6 +179,7 @@ FCOVER2020<-raster("c_gls_FCOVER-RT6_202001100000_GLOBE_PROBAV_V2.0.1.nc")
 
 #now crop them in the Amazonian Forest 
 #with ext cordinate that I create before
+ext<-c(-90,-30,-20,10)
 cFC2010<-crop(FCOVER2010,ext) 
 cFC2020<-crop(FCOVER2020,ext) 
 cFC2010 #call to see the name 
@@ -207,12 +209,89 @@ scale_fill_viridis(option="magma")+#assign the magma color in viridis palette
 ggtitle("FCover winter  in 2020")
 #put one images in top of the other
 Veg1/Veg2
-dev.off()
+dev.off()#close the procedure
 
 png("dif_Fcover_winter_10_20.png") #assign name
 difcl<-colorRampPalette(c("darkblue","yellow","red","black"))(100)#call the color ramp palette
 plot(FCdif, col=difcl)#plotting the images
-dev.off()
+dev.off()#close the procedure
+
+
+#at the end I want analyze data from http://terrabrasilis.dpi.inpe.br/en/home-page/ to see the actual deforestation rate nowadays
+#first I import with readOGR the bounderies of the Amazonian biomes
+biome<- readOGR("biome.shp")
+plot(biomes)
+fb<-fortify(biome) #for change shapefile into a file to use with ggplot
+#plot with ggplot function, group for correct the polygon
+gbiome<-ggplot()+geom_polygon(data=fb,aes(x=long, y=lat, group=group))+theme_bw()
+#now change graphics
+gbiome<-ggplot()+geom_polygon(data=fb,aes(x=long, y=lat, group=group),fill=" ",color="black",lwd=1)+theme_bw()
+
+#I import also the actual deforestation rate in 2021
+defo21<- readOGR("yearly_deforestation_2021_pri.shp")
+plot(defo21)
+#now I export the images
+png("defo2021.png")
+plot(defo21)
+dev.off()#close the procedure
+#try to put all together
+#plot all the data together
+#ggplot()+geom_polygon(data=fb,aes(x=long, y=lat, group=group),fill="green ",color="black",lwd=1)+theme_bw()
+#points(defo21)
+#now I export the images
+#png("dif_Fcover_winter_10_20.png") #assign name
+#ggplot()+geom_polygon(data=fb,aes(x=long, y=lat, group=group),fill="green ",color="black",lwd=1)+theme_bw()
+#points(defo21)
+#dev.off()#close the procedure
+
+#also I anlyze all the time serie of deferestation since 2008 to 2020
+#import the file
+shape<- readOGR("yearly_deforestation_biome.shp")
+shape# to see the information of the object
+#create a table with year and area km deforested 
+tb1<- table(shape$area_km,shape$year)
+#create a barplot to see the changes
+barplot(tb1,
+        xlab="year",
+        ylab="km lost", 
+        name.arg=c("2008",
+                   "2009",
+                   "2010",
+                   "2011",
+                   "2012",
+                   "2013",
+                   "2014",
+                   "2015",
+                   "2016",
+                   "2017",
+                   "2018",
+                   "2019",
+                   "2020"),
+        main="Deforestation",
+        xlim=c(0,16))
+#export the graph
+png("deforestation_08_20.png", width = 1800, height = 1800, res = 300)
+barplot(tb1,
+        xlab="year",
+        ylab="km lost", 
+        name.arg=c("2008",
+                   "2009",
+                   "2010",
+                   "2011",
+                   "2012",
+                   "2013",
+                   "2014",
+                   "2015",
+                   "2016",
+                   "2017",
+                   "2018",
+                   "2019",
+                   "2020"),
+        main="Deforestation",
+        xlim=c(0,16))
+dev.off()#close the procedure
 
 #end of the program
+
+
 
