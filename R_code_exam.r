@@ -28,42 +28,6 @@ setwd("C:/lab/exam")
 #first create a list with a common pattern
 #rlist<- list.files(pattern="SWI10") 
 #rlist #check if we have all the images import right 
-#use lapply finction to import like raster images
-#list_rast<-lapply(rlist,raster) 
-#list_rast #view the information of the images
-#take only the image for soil water index
-#make the stack, to have all of them togheter
-#wsoil<-stack(list_rast)
-#wsoil #call the see the names
-#change the names of the images
-#names(wsoil)<- c("November2009", "Dicember2009", "January2010","February2010","March2010","November2019", "Dicember2019","January2020", "February2020", "March2020")
-#create a palette first
-#cl<- colorRampPalette(c("darkblue","blue","lightblue"))(100)
-#plot the images and assign the color
-#plot(wsoil, col=cl)
-#i want to see the images from january 2010 and january 2020
-#extraxt them from the stack
-#jan2010<-(wsoil$January2010)
-#jan2020<-(wsoil$January2020)
-# now crop them in the Amazonian Forest
-#ext<-c(-90,-30,-20,10) #create the extenction of coordiantes first (x,y)
-#crop use the extarct images
-#water2010<-crop(jan2010,ext) 
-#water2020<-crop(jan2020,ext)
-#plot the images with ggplot()
-#gp1<-ggplot()+geom_raster(water2010, mapping=aes(x=x, y=y, fill=January2010))+
-#scale_fill_viridis()+#asign the defoult viridis palette
-#ggtitle("Soil water 2010")
-#gp2<-ggplot()+geom_raster(water2020, mapping=aes(x=x, y=y, fill=January2020))+
-#scale_fill_viridis()+#asign the defoult viridis palette
-#ggtitle("Soil water 2020")
-#put one in top of the other
-#gp1/gp2
-#I want to see if there is a difference in this two period
-#difcl<-colorRampPalette(c("darkblue","yellow","red","black"))(100)#create the color ramp palette
-#Wdif<-water2010-water2020 #make the difference
-#plot(Wdif, col=difcl)#plotting the images
-
 
 ######
 #I try daily data 
